@@ -1,0 +1,16 @@
+le fichier main.js s'occupe d'exécuter notre Program c'est tout
+class Program, à l'execution:
+- instancie nos personnages
+- selectionne les éléments HTML requis 
+- effectue un 1er rendu
+- place les écouteurs 
+
+class Program aura des méthodes
+- de rendu d'affichage (barre d'état des perso')
+- lié au écouteurs 
+
+class Character:
+- initialise les données de nos personnages lorsque instancié 
+Aura des méthodes:
+- pour mettre à jours les données des personnages en fonction du type d'action
+- et aussi une méthode pour gérer le log de combat (container "info")
