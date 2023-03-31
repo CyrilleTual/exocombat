@@ -75,23 +75,53 @@ export function display(game){
      * affichages des rounds 
      * */    
 
-    console.log(game.roundsHistory);
+   
 
-    let rounds = game.roundsHistory;
-    rounds.forEach((round, index) => {
+    // nombre de rounds 
 
-        let text1 = round.attacker;
-        let text = `Round N° ${index+1}, ${round.attacker} a choisi ${round.typeOfAttack}<br>`
+    let nbRounds = game.roundsHistory.length;
+    let round = game.round
+    if (document.querySelector('#lastRound')){
+                document.querySelector('#lastRound').remove();
+            }
 
-        let anchor = document.querySelector("#log")
-        let toAppend = document.createElement('span')
+        if(nbRounds>1){
 
-        toAppend.innerHTML = text;
-        anchor.append(toAppend);
+            let last2Rounds = game.roundsHistory.slice(nbRounds-2);
+            let text1 = "";
+            let text2 = "";
+            let text=""
 
-        console.log (text)
-        
-    });
+            last2Rounds.forEach((round, index) => {
+                
+                switch (round.typeOfAttack) {
+                    case 'attaque':
+                        text2 = ` il afflige une perte de ${round.damages} points de vie <br><br>`                  
+                        break;
+                    case 'defense':
+                         text2 = ` , il gagne ${round.damages} points de défense <br>`
+                         break;    
+                    default:
+                         text2 = ` cela provoque une perte de ${round.damages} points de vie <br><br>`
+                        break;
+                }
+
+                text1 = ` Round ${nbRounds-1+index}, ${round.attacker} ${round.typeOfAttack}`
+                text1 += text2
+
+                 text += text1 
+
+            });
+            
+            let anchor = document.querySelector("#log")
+            let toAppend = document.createElement('span')
+            toAppend.setAttribute("id","lastRound");
+            toAppend.innerHTML = text;
+            anchor.append(toAppend);
+
+            //console.log (text)
+        }
+
 
     gameOver(game);
 
