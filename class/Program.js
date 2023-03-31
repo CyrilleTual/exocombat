@@ -1,5 +1,6 @@
 import Character from "./characters.js";
 import { display } from "../js/display.js";
+import { Round } from "./Round.js";
 
 
 class Program {
@@ -9,6 +10,7 @@ class Program {
 
         this.attacker = null;
         this.action = null;
+        this.roundsHistory = [];
 
         this.attackBtn = document.getElementById("atkBtn");
         this.defBtn = document.getElementById("defBtn");
@@ -24,9 +26,13 @@ class Program {
     }
 
     attack(){   // squall attaque bahamut
-        this.attacker = this.squall.name;
-        this.action = "attaque";
-        this.squall.setAttack(this.bahamut);
+        
+        let damage =this.squall.setAttack(this.bahamut);
+
+        this.round = new Round(this.squall.name, "attaque", damage)
+        this.roundsHistory.push(this.round);
+       
+
         // afficher ce qu'il s'est passé
         this.log();
           
@@ -35,19 +41,26 @@ class Program {
     }
 
     defend(){ // squall joue la défense
-        this.attacker = this.squall.name;
-        this.action = "defense";
-        this.squall.setDefense();   
-         // afficher ce qu'il s'est passé
+  
+        let damage = this.squall.setDefense(); 
+
+        this.round = new Round(this.squall.name, "defense", damage)
+        this.roundsHistory.push(this.round);
+       
+
+        // afficher ce qu'il s'est passé
         this.log();  
         this.dragonTurn();               
     }
 
     castSpell(){
-        this.attacker = this.squall.name;
-        this.action = "jette un sort";
-        this.squall.setCastSpell(this.bahamut);   
-         // afficher ce qu'il s'est passé
+
+        let damage = this.squall.setCastSpell(this.bahamut);
+        this.round = new Round(this.squall.name, "jette un sort", damage);
+        this.roundsHistory.push(this.round);
+       
+
+        // afficher ce qu'il s'est passé
         this.log(); 
         this.dragonTurn();     
 
@@ -63,26 +76,33 @@ class Program {
             random = Math.floor(Math.random()*2) + 1 ;
         }
         
+        let damage = 0;
+
         switch (random) {
             case 1:
-                this.bahamut.setAttack(this.squall);// attaque
+                damage = this.bahamut.setAttack(this.squall);// attaque
                 this.action = "attaque";   
                 break;
             case 2:
-                this.bahamut.setDefense();// se défend
+                damage = this.bahamut.setDefense();// se défend
                 this.action = "defense";   
                 break;     
             default:
                 this.action = "jette un sort";
-                this.squall.setCastSpell(this.squall); 
+                damage = this.squall.setCastSpell(this.squall); 
                 break;
         }
+
+        this.round = new Round(this.bahamut.name, this.action, damage);
+        this.roundsHistory.push(this.round);
+       
+
         this.log();
        
     }
 
     log(){
-        console.log(`${this.attacker} a joué : ${this.action}`)
+        //console.log(`${this.attacker} a joué : ${this.action}`)
         display(this);
     }
 
