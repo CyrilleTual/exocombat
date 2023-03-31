@@ -99,7 +99,7 @@ export function display(game){
                         text2 = ` il afflige une perte de ${round.damages} points de vie <br><br>`                  
                         break;
                     case 'defense':
-                         text2 = ` , il gagne ${round.damages} points de défense <br>`
+                         text2 = ` , il gagne ${round.damages} points de défense <br><br>`
                          break;    
                     default:
                          text2 = ` cela provoque une perte de ${round.damages} points de vie <br><br>`
